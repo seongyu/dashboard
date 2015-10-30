@@ -22,6 +22,23 @@ angular.module('sctDashModule', ['chart.js'])
     gridster = $(".gridster ul").gridster({
         widget_base_dimensions: [100, 100],
         widget_margins: [5, 5],
+        resize: {
+            enabled: true,
+            start : function(e, ui, widget){
+                //parentWidth = jQuery(widget).width();
+                //parentHeight = jQuery(widget).height();
+                jQuery(widget).find("iframe").css("display", "none");
+            },
+            stop : function(e, ui, widget){
+                //alert(jQuery(widget).html());
+                jQuery(widget).find("iframe").css("display", "");
+                parentWidth = jQuery(widget).width();
+                parentHeight = jQuery(widget).height();
+                //jQuery(widget).find("iframe").css("width", parentWidth-10);
+                //jQuery(widget).find("iframe").css("height", parentHeight-35);
+            },
+            min_size : [1,1]
+        },
         autogrow_cols: true,
         max_size_x : 20
     }).data('gridster');
