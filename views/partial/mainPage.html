@@ -1,0 +1,142 @@
+<link rel="stylesheet" type="text/css" href="library/kt/css/default.css" />
+<script type="text/javascript" src="library/kt/js/common.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="library/kt/js/gridster/jquery.gridster.css"/>
+<script type="text/javascript" src="library/kt/js/gridster/jquery.gridster.js"></script>
+<script src="javascripts/main.js"></script>
+<style>
+    .titledeco{
+        font-size: 20px;
+        top: 4px !important;
+        color: #9596A0 !important;
+        font-weight: 200;
+    }
+    .sect_hCet{
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: 200;
+    }
+    .close_btn{
+        width: 24px;
+        opacity: 0.4;
+    }
+    .title_add{
+        border-bottom: 1px solid rgba(171, 171, 171, 0.35);
+    }
+</style>
+
+        <div ng-app="sctDashModule">
+            <div ng-controller="mainCtrl">
+                <div id="wrap">
+                    <!--++++++++++++++++++++++++++++++++++++++++Header++++++++++++++++++++++++++++++++++++++++-->
+                    <div id="header">
+                        <div class="hdInner">
+                        <!--Header Left: BI-->
+                        <div class="sect_logo">
+                            <a href="sub.html" title=""><img src="library/kt/images/logos.png" style="height: 60px;" alt="IoT Dashboard" /></a>
+                        </div>
+                        <!--//Header Left-->
+
+                        <!--Header Right: Menu, 접속자정보-->
+                        <!--<div class="sect_rgt">-->
+                            <!--<a href="#" title="" class="btnBs tpAbv">위젯추가</a>-->
+                        <!--</div>-->
+                        <!--//Header Right-->
+                    </div>
+                    </div>
+                    <!--++++++++++++++++++++++++++++++++++++++++//Header++++++++++++++++++++++++++++++++++++++++-->
+
+                    <!--++++++++++++++++++++++++++++++++++++++++Contents++++++++++++++++++++++++++++++++++++++++-->
+                    <div id="contents" class="cntDash">
+                        <div class="gridster">
+                            <ul id="gridster_ul">
+                                <li data-row="1" data-col="1" data-sizex="11" data-sizey="5">
+                                    <!--Contents Box-->
+                                    <div class="boxBs">
+                                        <div class="boxBsInner">
+                                            <div class="box_tit title_add">
+                                                <div class="sect_hLft titledeco">
+                                                    {{park_info.title}}
+                                                </div>
+                                                <div class="sect_hCet">
+                                                    <span class="glyphicon glyphicon-ok-sign"
+                                                          style="color:{{park_info.site.is_full=='Y'? '#FF0000' : '#00FF23'}}" aria-hidden="true"></span>
+                                                    &nbsp;{{status}}&nbsp;
+                                                    <button onclick="testbtn()" class="button">상세보기
+                                                        <i class="glyphicon glyphicon-new-window" style="font-size:0.8em" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="sect_hRgt">
+                                                    <i ng-click="test(0,'out')" style="display:{{isS0=='Y'?'block':'none'}}" class="glyphicon glyphicon-chevron-down"></i>
+                                                    <i ng-click="test(0,'in')" style="display:{{isS0=='N'?'block':'none'}}" class="glyphicon glyphicon-chevron-up"></i>
+                                                    <!--<img src="library/kt/images/ico_close.png" class="close_btn" ng-click="test(0)" alt="Close"/>-->
+                                                </div>
+                                            </div>
+                                            <div class="box_cnt" style="overflow: scroll">
+                                                <!--Contents iframe-->
+                                                <div ng-include="'/frame/ctnBlock.html'">
+
+                                                </div>
+                                                <!--//Contents iframe-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//Contents Box-->
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <!--++++++++++++++++++++++++++++++++++++++++Contents++++++++++++++++++++++++++++++++++++++++-->
+
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="parkInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">{{park_info.title}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="panel panel-default">
+                                    <!-- Default panel contents -->
+                                    <div class="panel-heading">{{park_info.loc.loc1}}</div>
+                                    <!-- Table -->
+                                    <table class="table">
+                                        <tr>
+                                            <td>전화번호</td>
+                                            <td>{{park_info.tel}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>가격정보</td>
+                                            <td>{{park_info.price.basic.b}}
+                                                {{park_info.price.basic.t=='M'?'분 당 ':'시간 당 '}}
+                                                {{park_info.price.basic.p}}원
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>시간정보</td>
+                                            <td>
+                                                평일 : {{park_info.time_info[0]}}<br>
+                                                주말 : {{park_info.time_info[1]}}<br>
+                                                공휴일 : {{park_info.time_info[2]}}<br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>주차면정보</td>
+                                            <td>총 {{park_info.site.now}} / {{park_info.site.total}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>

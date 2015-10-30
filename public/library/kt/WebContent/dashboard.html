@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name='author' content='ese, 이에스이' />
+<meta http-equiv='description' content='IoT Dashboard' />
+<title>IoT Dashboard</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css" />
+<script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="../js/gridster/jquery.gridster.css"/>
+<script type="text/javascript" src="../js/gridster/jquery.gridster.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function(){
+	gridster = $(".gridster ul").gridster({
+      widget_base_dimensions: [100, 100],
+//         widget_base_dimensions: getDemention(),
+        widget_margins: [5, 5],
+        resize: {
+            enabled: true,
+            start : function(e, ui, widget){
+            		//parentWidth = jQuery(widget).width();
+        		//parentHeight = jQuery(widget).height();
+        		jQuery(widget).find("iframe").css("display", "none");
+            },
+            stop : function(e, ui, widget){
+                //alert(jQuery(widget).html());
+        		jQuery(widget).find("iframe").css("display", "");
+            	parentWidth = jQuery(widget).width();
+        		parentHeight = jQuery(widget).height();
+        		//jQuery(widget).find("iframe").css("width", parentWidth-10);
+        		//jQuery(widget).find("iframe").css("height", parentHeight-35);
+            },
+            min_size : [1,1]
+        },
+		serialize_params: function(w, wgd) {
+			containerId = jQuery(w).attr("id");
+			src = jQuery(w).find("iframe").attr("src");
+			return { id: containerId, col: wgd.col, row: wgd.row, size_x: wgd.size_x, size_y: wgd.size_y, src : src }; 
+		},
+        draggable: {
+			handle : "div.box_tit",
+        	start : function(event, ui){
+            	widget = jQuery(ui.$player.context);
+            	jQuery(widget).find("iframe").css("display", "none");
+            },
+        	stop : function(event, ui){
+            	widget = jQuery(ui.$player.context);
+            	jQuery(widget).find("iframe").css("display", "");
+            	parentWidth = jQuery(widget).width();
+        		parentHeight = jQuery(widget).height();
+        		//jQuery(widget).find("iframe").css("width", parentWidth-10);
+        		//jQuery(widget).find("iframe").css("height", parentHeight-35);
+            }
+        },
+        autogrow_cols: true,
+        max_size_x : 20
+      }).data('gridster');
+});
+
+
+//========================================================================================
+//	Height/width Control : 테스트용 임의 함수 : 14/07/XX
+//========================================================================================
+$(window).ready(function(){
+	crtlWnH();
+});
+
+$(window).resize(function(){
+	crtlWnH();
+});
+
+function crtlWnH() {
+	//각 컨텐츠 박스 Contents 높이
+	//common.js에 지정하면 .boxBs값을 가져오지 못 한 상태에서 각 위젯 컨텐츠 박스를 생성하여, 정상적인 높이로 만들어지지 않음
+	//본 함수때문인지는 몰라도 초기에 뿌려진 위젯 컨텐츠 박스 높이 이하로 줄여지지 않음
+	//UX플랫폼 개발진에 문의할 것
+	$(".box_cnt").each(function(){
+		$(this).css({'height':( $(this).parents(".boxBs").height() - 42 ) + 'px'});
+	});
+}
+//]]>
+</script>
+</head>
+<body>
+<div id="wrap">
+	
+	<!--++++++++++++++++++++++++++++++++++++++++Header++++++++++++++++++++++++++++++++++++++++-->
+	<div id="header"><div class="hdInner">
+		<!--Header Left: BI-->
+		<div class="sect_logo">
+			<h1>
+				<a href="sub.html" title=""><img src="../images/회사로고.png" alt="IoT Dashboard" /></a>
+			</h1>
+		</div>
+		<!--//Header Left-->
+
+		<!--Header Right: Menu, 접속자정보-->
+		<div class="sect_rgt">
+			<a href="#" title="" class="btnBs tpAbv">위젯추가</a>
+		</div>
+		<!--//Header Right-->
+	</div></div>
+	<!--++++++++++++++++++++++++++++++++++++++++//Header++++++++++++++++++++++++++++++++++++++++-->
+
+	<!--++++++++++++++++++++++++++++++++++++++++Contents++++++++++++++++++++++++++++++++++++++++-->
+	<div id="contents" class="cntDash">
+		<div class="gridster">
+			<ul id="gridster_ul">
+				<li data-row="1" data-col="1" data-sizex="5" data-sizey="3">
+					<!--Contents Box-->
+					<div class="boxBs"><div class="boxBsInner">
+						<div class="box_tit">
+							<div class="sect_hLft">
+								페이지 - 기본
+							</div>
+							<div class="sect_hRgt">
+								<a href="#" title="Close"><img src="../images/ico_close.png" alt="Close" /></a>
+							</div>
+						</div>
+						<div class="box_cnt">
+							<!--Contents iframe-->
+							<iframe src="if_cnt.html" frameborder="0" framespacing="0" marginwidth="0" marginheight="0" scrolling="auto" name="if_cnt" id="if_cnt" title="컨텐츠 프레임">
+							[귀하의 브라우저&#40;사용도구&#41;는 프레임을 지원하지 않거나, 현재 프레임이 디스플레이되도록 구성되어음있지 않습니다. 그러나, 방문을 계속 하실 수 있습니다. <a href="if_cnt.html">관계 문서.</a>]
+							[Your user agent does not support frames or is currently configured not to display frames. However, you may visit <a href="if_cnt.html">the related document.</a>]
+							</iframe>
+							<!--//Contents iframe-->
+						</div>
+					</div></div>
+					<!--//Contents Box-->
+				</li>
+				<li data-row="1" data-col="6" data-sizex="5" data-sizey="3">
+					<!--Contents Box-->
+					<div class="boxBs"><div class="boxBsInner">
+						<div class="box_tit">
+							<div class="sect_hLft">
+								페이지 - 패딩 추가
+							</div>
+							<div class="sect_hRgt">
+								<a href="#" title="Close"><img src="../images/ico_close.png" alt="Close" style="" /></a>
+							</div>
+						</div>
+						<div class="box_cnt">
+							<!--Contents iframe-->
+							<iframe src="if_cnt_padding.html" frameborder="0" framespacing="0" marginwidth="0" marginheight="0" scrolling="auto" name="if_cnt" id="if_cnt" title="컨텐츠 프레임">
+							[귀하의 브라우저&#40;사용도구&#41;는 프레임을 지원하지 않거나, 현재 프레임이 디스플레이되도록 구성되어음있지 않습니다. 그러나, 방문을 계속 하실 수 있습니다. <a href="if_cnt.html">관계 문서.</a>]
+							[Your user agent does not support frames or is currently configured not to display frames. However, you may visit <a href="if_cnt.html">the related document.</a>]
+							</iframe>
+							<!--//Contents iframe-->
+						</div>
+					</div></div>
+					<!--//Contents Box-->
+				</li>
+				<li data-row="1" data-col="11" data-sizex="5" data-sizey="3">
+					<!--Contents Box-->
+					<div class="boxBs"><div class="boxBsInner">
+						<div class="box_tit">
+							<div class="sect_hLft">
+								페이지 - 무배경
+							</div>
+							<div class="sect_hRgt">
+								<a href="#" title="Close"><img src="../images/ico_close.png" alt="Close" /></a>
+							</div>
+						</div>
+						<div class="box_cnt">
+							<!--Contents iframe-->
+							<iframe src="if_cnt_nobg.html" frameborder="0" framespacing="0" marginwidth="0" marginheight="0" scrolling="auto" name="if_cnt_nobg" id="if_cnt_nobg" title="컨텐츠 프레임">
+							[귀하의 브라우저&#40;사용도구&#41;는 프레임을 지원하지 않거나, 현재 프레임이 디스플레이되도록 구성되어음있지 않습니다. 그러나, 방문을 계속 하실 수 있습니다. <a href="if_cnt_nobg.html">관계 문서.</a>]
+							[Your user agent does not support frames or is currently configured not to display frames. However, you may visit <a href="if_cnt_nobg.html">the related document.</a>]
+							</iframe>
+							<!--//Contents iframe-->
+						</div>
+					</div></div>
+					<!--//Contents Box-->
+				</li>				
+			</ul>
+		</div>
+	</div>
+	<!--++++++++++++++++++++++++++++++++++++++++Contents++++++++++++++++++++++++++++++++++++++++-->
+
+</div>
+</body>
+</html>
