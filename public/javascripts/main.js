@@ -69,7 +69,7 @@ angular.module('sctDashModule', ['chart.js'])
         return {
             restrict: 'E',
             replace:true,
-            template: '<div class="loading"><div class="table_center"><img src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif" width="50" height="50" /></div></div>',
+            template: '<div class="loading"><div class="table_cell_center"><img src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif" width="50" height="50" /></div></div>',
             link: function (scope, element, attr) {
                 scope.$watch('loading', function (val) {
                     if (val)
