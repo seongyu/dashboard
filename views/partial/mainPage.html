@@ -15,7 +15,7 @@
         font-size: 14px;
         font-weight: 200;
     }
-    .close_btn{
+.close_btn{
         width: 24px;
         opacity: 0.4;
     }
@@ -26,25 +26,18 @@
 
         <div ng-app="sctDashModule">
             <div ng-controller="mainCtrl">
+                <loading style="display:{{loadingStatus}}" ></loading>
                 <div id="wrap">
                     <!--++++++++++++++++++++++++++++++++++++++++Header++++++++++++++++++++++++++++++++++++++++-->
                     <div id="header">
                         <div class="hdInner">
                         <!--Header Left: BI-->
                         <div class="sect_logo">
-                            <a href="sub.html" title=""><img src="library/kt/images/logos.png" style="height: 60px;" alt="IoT Dashboard" /></a>
+                            <a href="/" title=""><img src="library/kt/images/logos.png" style="height: 60px;" alt="IoT Dashboard" /></a>
                         </div>
-                        <!--//Header Left-->
-
-                        <!--Header Right: Menu, 접속자정보-->
-                        <!--<div class="sect_rgt">-->
-                            <!--<a href="#" title="" class="btnBs tpAbv">위젯추가</a>-->
-                        <!--</div>-->
-                        <!--//Header Right-->
                     </div>
                     </div>
                     <!--++++++++++++++++++++++++++++++++++++++++//Header++++++++++++++++++++++++++++++++++++++++-->
-
                     <!--++++++++++++++++++++++++++++++++++++++++Contents++++++++++++++++++++++++++++++++++++++++-->
                     <div id="contents" class="cntDash">
                         <div class="gridster">
@@ -89,7 +82,44 @@
                     <!--++++++++++++++++++++++++++++++++++++++++Contents++++++++++++++++++++++++++++++++++++++++-->
 
                 </div>
-
+                <div class="modal fade" id="siteInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">차량결과 리스트</div>
+                            <div class="modal-body">
+                                <table style="width:100%;">
+                                    <tr>
+                                        <td>차량 번호 : </td>
+                                        <td>{{targetSite.car_info.car_num}}</td>
+                                    </tr>
+                                    <!--<tr>-->
+                                        <!--<td>연락처 : </td>-->
+                                        <!--<td>{{targetSite.car_info.tel}}</td>-->
+                                    <!--</tr>-->
+                                    <tr>
+                                        <td>주차위치 : </td>
+                                        <td>{{targetSite.site_code}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>주차시작시간 : </td>
+                                        <td>{{targetSite.in_txt}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>경과시간 : </td>
+                                        <td>{{targetSite.during_txt}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>최종정보갱신시간 : </td>
+                                        <td>{{targetSite.update_txt}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Modal -->
                 <div class="modal fade" id="parkInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
@@ -97,12 +127,12 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">{{park_info.title}}</h4>
+                                <h4 class="modal-title" id="myModalLabel">{{park_info.title}} ({{park_info.park_id}})</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="panel panel-default">
                                     <!-- Default panel contents -->
-                                    <div class="panel-heading">{{park_info.loc.loc1}}</div>
+                                    <div class="panel-heading">{{park_info.address.prev}}</div>
                                     <!-- Table -->
                                     <table class="table">
                                         <tr>
@@ -111,17 +141,20 @@
                                         </tr>
                                         <tr>
                                             <td>가격정보</td>
-                                            <td>{{park_info.price.basic.b}}
+                                            <td>최초 : {{park_info.price.first? park_info.price.first+'원':'없음'}}<br>
+                                                {{park_info.price.basic.b}}
                                                 {{park_info.price.basic.t=='M'?'분 당 ':'시간 당 '}}
-                                                {{park_info.price.basic.p}}원
+                                                {{park_info.price.basic.p}}원<br>
+                                                최대 : {{park_info.price.max? park_info.price.max+'원':'없음'}}<br>
+                                                일요금 : {{park_info.price.daily? park_info.price.daily+'원':'없음'}}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>시간정보</td>
                                             <td>
-                                                평일 : {{park_info.time_info[0]}}<br>
-                                                주말 : {{park_info.time_info[1]}}<br>
-                                                공휴일 : {{park_info.time_info[2]}}<br>
+                                                평일 : {{park_info.time_info.weekday.start.slice(0,2)}}:{{park_info.time_info.weekday.start.slice(2)}} ~ {{park_info.time_info.weekday.end.slice(0,2)}}:{{park_info.time_info.weekday.end.slice(2)}}<br>
+                                                주말 : {{park_info.time_info.weekend.start.slice(0,2)}}:{{park_info.time_info.weekend.start.slice(2)}} ~ {{park_info.time_info.weekend.end.slice(0,2)}}:{{park_info.time_info.weekend.end.slice(2)}}<br>
+                                                공휴일 : {{park_info.time_info.holiday.start.slice(0,2)}}:{{park_info.time_info.holiday.start.slice(2)}} ~ {{park_info.time_info.holiday.end.slice(0,2)}}:{{park_info.time_info.holiday.end.slice(2)}}<br>
                                             </td>
                                         </tr>
                                         <tr>
@@ -130,6 +163,7 @@
                                         </tr>
                                     </table>
                                 </div>
+                                <div style="font-size: 12px;color: #9E9E9E;">{{park_info.update_info}} 정보 입니다.</div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>

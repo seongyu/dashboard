@@ -1,101 +1,11 @@
-<style>
-    .setBack{
-        background-color: #dfdfdf !important;
-    }
-    .setBlock{
-        background-color: white
-    }
-    .rightAlign{
-        text-align: right;
-    }
-    .fullwidth{
-        width:100%;
-    }
-    .ath{
-        font-size:15px;
-        font-weight: 300;
-        border-top:none !important;
-        border-bottom: 1px solid #000;
-        text-align: center;
-    }
-    .atd {
-        text-align: center;
-    }
-    .td-r{
-        text-align:right;
-        color:#4ea8f4;
-        line-height: 40px !important;
-    }
-    .find-box{
-        height: 30px !important;
-        border: 1px solid rgba(128, 128, 128, 0.23) !important;
-    }
-    .refrash{
-        text-align: right !important;
-        line-height: 40px;
-        width: 30%;
-        font-size: 10px !important;
-        color: gray;
-        text-decoration: underline;
-        cursor: pointer;
-    }
-    .alerts{
-        width:95%;
-        height:38px;
-        background-color: white;
-        border-radius:5px;
-        text-align: left;
-        padding-left:15px;
-    }
-    .maps{
-        width: 98%;
-        height: 320px;
-        background-color: white;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        box-shadow: 1px 1px 1px 1px #C5C5C5;
-    }
-    .td {
-        border : 2px solid white;
-    }
-    .site_in_ico{
-        margin-top: 5px;
-        margin-right: 10%;
-        transform: rotate(90deg);
-        -webkit-transform: rotate(90deg);
-    }
-
-    .site_out_ico{
-        margin-left: 10%;
-        transform: rotate(-90deg);
-        -webkit-transform: rotate(-90deg);
-    }
-
-    .gra{
-        width: 98%;
-        background-color: white;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        box-shadow: 1px 1px 1px 1px #C5C5C5;
-    }
-    #sidebar {
-        background-color: white;
-    }
-    .subTitle{
-        font-size:18px;
-        text-align: left;
-        margin-left:15px;
-
-    }
-</style>
         <div class="setBack">
             <div class="row targetRow">
                 <div class="col-sm-3" id="sidebar">
                     <div class="col-sm-12 setBlock">
                         <div>
                             <div class="input-group">
-                                <input type="text" class="form-control find-box" placeholder="예)12가1234" aria-describedby="findCar">
-                                <span class="input-group-addon" style="cursor: pointer;">차량검색</span>
+                                <input type="text" class="form-control find-box" placeholder="예)12가1234" id="testsa" aria-describedby="findCar">
+                                <span class="input-group-addon" style="cursor: pointer;" ng-click="testbtn(find_txt)">차량검색</span>
                             </div>
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
@@ -105,7 +15,7 @@
                                 <li role="presentation">
                                     <a href="" onclick="tabClk('profile')" aria-controls="profile" role="tab" data-toggle="tab">예약현황</a>
                                 </li>
-                                <li class="refrash">
+                                <li class="refrash" ng-click="checkStatus()">
                                     새로고침
                                 </li>
                             </ul>
@@ -116,24 +26,31 @@
                                     <table class="table">
                                         <tr>
                                             <th class="ath">
-                                                <span style="color:#4ea8f4;font-size:20px;">23</span>
+                                                <span style="color:#4ea8f4;font-size:20px;">{{park_info.site.total-park_info.site.now}}</span>
                                                 대 주차 중</th>
-                                            <th class="ath" style="line-height: 30px;">총 100면</th>
+                                            <th class="ath" style="line-height: 30px;">총 {{park_info.site.total}}면</th>
                                         </tr>
-                                        <tr>
-                                            <td class="atd">89마1235<br>
-                                                <i class="glyphicon glyphicon-arrow-right"></i> 오늘 05:30</td>
-                                            <td class="td-r">02:03:12</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="atd">89마1235<br>
-                                                <i class="glyphicon glyphicon-arrow-right"></i> 오늘 05:30</td>
-                                            <td class="td-r">02:03:12</td>
+                                        <tr ng-repeat="status in siteStatus">
+                                            <td class="atd">{{status.car_info.car_num}}<br>
+                                                <i class="glyphicon glyphicon-arrow-right"></i>{{status.stat_time}}</td>
+                                            <td class="td-r">{{status.time_chk}}</td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="profile">
-                                    예약 내역이 존재하지 않습니다.
+                                    <!--<tr ng-repeat="status in resStatus">-->
+                                        <!--<td class="atd">{{status.car_info.car_num}}<br>-->
+                                            <!--<i class="glyphicon glyphicon-arrow-right"></i>{{status.stat_time}}</td>-->
+                                        <!--<td class="td-r">{{status.time_chk}}</td>-->
+                                    <!--</tr>-->
+                                    <table class="table">
+                                        <div ng-repeat="res in resStatus" class="base_td">
+                                            <div><span class="res_title_deco">{{res.site_code}}</span>면에 배정 예정</div>
+                                            <div>{{res.car_num}} || {{res.tel}}</div>
+                                            <div class="line_deco">입차예정 : {{res.in_txt}}</div>
+                                            <div class="line_deco">출차예정 : {{res.out_txt}}</div>
+                                        </div>
+                                    </table>
                                 </div>
                             </div>
 
@@ -141,35 +58,33 @@
                     </div>
                 </div>
                 <div class="col-sm-9">
-                    <div class="row" style="line-height: 38px;margin-top:4px;">
-                        <div class="col-sm-2">
-                            <div>
-                            알림사항
-                            </div>
-                        </div>
-                        <div class="col-sm-10">
-                            <div class="alerts">
-                                23너3366 차량이 진입했습니다.
-                                <span style="right: 10%;position: absolute;" class="refrash">더보기</span>
-                                <!--<div class="col-sm-8">23너3366 차량이 진입했습니다.</div>-->
-                                <!--<div class="col-sm-2"><div class="refrash">더보기</div></div>-->
-                            </div>
-                        </div>
+                    <!--<div class="row" style="line-height: 38px;margin-top:4px;">-->
+                        <!--<div class="col-sm-2">-->
+                            <!--<div>-->
+                            <!--알림사항-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<div class="alerts">-->
+                                <!--23너3366 차량이 진입했습니다.-->
+                                <!--<span style="right: 10%;position: absolute;" class="refrash">더보기</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
 
-                    </div>
-                    <div style="background-color: #D8D8D8;">
+                    <!--</div>-->
+                    <div style="background-color: #DFDFDF;padding-top:10px;">
                         <div class="subTitle">단면도</div>
-                        <div class="maps">
-                            <div style="text-align:left;width:{{w}}px;margin-top:10px;">
+                        <div class="maps" style="overflow-x: scroll;overflow-y: hidden">
+                            <div style="text-align:left;width:1750px;margin-top:10px;">
 
-                                <div id="siteView" style="width:{{w}}px; height:340px;visibility:hidden;">
+                                <div id="siteView" style="width:1750px; height:350px;visibility:hidden;">
                                     <div style="text-align: right;">
                                         <img src="images/ic_in.png" class="site_in_ico">
                                     </div>
-                                    <table style="margin-left:auto;margin-right:auto;">
+                                    <table style="margin-left:15px;">
                                         <tr ng-repeat="y in site_info.y" style="visibility: {{y.v}}">
                                             <td class="td" ng-repeat="x in site_info.x">
-                                                <div style="width:20px;height:{{x.cm =='Y'? 20 : 40}}px;background-color: {{x.c}};">
+                                                <div style="width:{{x.cm =='Y'? 20 : 60}}px;height:{{x.cm =='Y'? 20 : 40}}px;background-color: {{x.c}};">
 
                                                 </div>
                                             </td>
@@ -179,13 +94,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="subTitle">통계</div>
-                        <div class="gra">
-                            <canvas id="line" class="chart chart-line" chart-data="data" chart-options="option"
-                                    chart-labels="labels" chart-legend="false" chart-series="series"
-                                    chart-click="onClick" >
-                            </canvas>
-                        </div>
+                        <!--<div class="subTitle">통계</div>-->
+                        <!--<div class="gra">-->
+                            <!--<canvas id="line" class="chart chart-line" chart-data="data" chart-options="option"-->
+                                    <!--chart-labels="labels" chart-legend="false" chart-series="series"-->
+                                    <!--chart-click="onClick" >-->
+                            <!--</canvas>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
