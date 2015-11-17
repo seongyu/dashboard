@@ -30,7 +30,7 @@
                                                 대 주차 중</th>
                                             <th class="ath" style="line-height: 30px;">총 {{park_info.site.total}}면</th>
                                         </tr>
-                                        <tr ng-repeat="status in siteStatus">
+                                        <tr ng-repeat="status in siteStatus" class="divide_line">
                                             <td class="atd">{{status.car_info.car_num}}<br>
                                                 <i class="glyphicon glyphicon-arrow-right"></i>{{status.stat_time}}</td>
                                             <td class="td-r">{{status.time_chk}}</td>
@@ -44,7 +44,7 @@
                                         <!--<td class="td-r">{{status.time_chk}}</td>-->
                                     <!--</tr>-->
                                     <table class="table">
-                                        <div ng-repeat="res in resStatus" class="base_td">
+                                        <div ng-repeat="res in resStatus" class="divide_line">
                                             <div><span class="res_title_deco">{{res.site_code}}</span>면에 배정 예정</div>
                                             <div>{{res.car_num}} || {{res.tel}}</div>
                                             <div class="line_deco">입차예정 : {{res.in_txt}}</div>
