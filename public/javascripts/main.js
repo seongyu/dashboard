@@ -98,6 +98,7 @@ angular.module('sctDashModule', ['chart.js'])
                     var av = [];
                     siteStatus.forEach(function(v,i,a){
                         if(v.status==='N'){
+                            v.stat_time = new Date(v.stat_time).getTime()-9*3600*1000;
                             v.time_chk = duringTimeChk(v.stat_time);
                             v.stat_time = new Date(v.stat_time).toLocaleTimeString();
                             av.push(v);
