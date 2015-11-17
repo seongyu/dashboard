@@ -80,12 +80,14 @@ angular.module('sctDashModule', ['chart.js'])
             }
         }
     })
-    .controller('mainCtrl', function ($scope, request) {
+    .controller('mainCtrl', function ($scope, request,$interval) {
 
         $scope.park_info = parkList[0];
 
-        $scope.checkStatus = function(){
-            $scope.loadingStatus = 'table';
+        $scope.checkStatus = function(is_loading){
+            if(!is_loading){
+                $scope.loadingStatus = 'table';
+            }
             request.refreshInfo(park_id,function(res){
                 $scope.park_info = res;
                 $scope.status = mk_dateInfo(res.time_info);
@@ -114,6 +116,10 @@ angular.module('sctDashModule', ['chart.js'])
         };
 
         $scope.checkStatus();
+
+        $interval(function(){
+            $scope.checkStatus('N');
+        },5000);
 
         $scope.resReq = function(park){
             request.post(api_url+'getResList',{
