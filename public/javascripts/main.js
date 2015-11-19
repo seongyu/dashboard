@@ -201,29 +201,18 @@ angular.module('sctDashModule', ['chart.js'])
 
             site_info.a.forEach(function (v, i, a) {
                 if(site_list[i].status==='Y'){
+                    var targetm = '.td:eq('+v+') div';
+
+                    $(targetm).css('background-color','#51b9ff').html(
+                        '<div class="table_display"><p style="font-size: 12px;" class="table_cell_center">'+site_list[i].site_code+'<br>'+site_list[i].car_info.car_num+'</p></div>'
+                    );
+                }else{
+
                     var btn = 'onclick="tgSiteBtn(\''+site_list[i].site_code+'\')"';
                     var targetm = '.td:eq('+v+') div';
 
-                    if($scope.target){
-                        var cl = '#FFA700';
-                        if(site_list[i].site_code===$scope.target){
-                            cl = '#51b9ff';
-                        }
-                        $(targetm).css('background-color',cl).html(
-                            '<div class="table_display"><p style="font-size: 12px;" class="table_cell_center">'+site_list[i].site_code+'<br>'+site_list[i].car_info.car_num+'</p></div>'
-                        );
-
-                    }else{
-                        $(targetm).css('background-color','#51b9ff').html(
-                            '<div class="table_display"><p style="font-size: 12px;" class="table_cell_center">'+site_list[i].site_code+'<br>'+site_list[i].car_info.car_num+'</p></div>'
-                        );
-
-                    }
-                }else{
-                    var targetm = '.td:eq('+v+') div';
-
                     $(targetm).css('background-color','#FF8585').html(
-                        '<div class="table_display"><p style="font-size: 12px;" class="table_cell_center" '+btn+'>'+site_list[i].site_code+'<br>'+site_list[i].car_info.car_num+'</p></div>'
+                        '<div class="table_display" ><p style="font-size: 12px;cursor: pointer;" class="table_cell_center" '+btn+'>'+site_list[i].site_code+'<br>'+site_list[i].car_info.car_num+'</p></div>'
                     );
                 }
             });
