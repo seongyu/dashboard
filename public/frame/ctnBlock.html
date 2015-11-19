@@ -4,8 +4,8 @@
                     <div class="col-sm-12 setBlock">
                         <div>
                             <div class="input-group">
-                                <input type="text" class="form-control find-box" placeholder="예)12가1234" id="testsa" aria-describedby="findCar">
-                                <span class="input-group-addon" style="cursor: pointer;" ng-click="testbtn(find_txt)">차량검색</span>
+                                <input type="text" class="form-control find-box" placeholder="예)12가1234" id="findKey" aria-describedby="findCar">
+                                <span class="input-group-addon" style="cursor: pointer;" ng-click="findBtn()">차량검색</span>
                             </div>
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
@@ -75,18 +75,16 @@
                     <div style="background-color: #DFDFDF;padding-top:10px;">
                         <div class="subTitle">단면도</div>
                         <div class="maps" style="overflow-x: scroll;overflow-y: hidden">
-                            <div style="text-align:left;width:1750px;margin-top:10px;">
+                            <div style="text-align:left;width:1550px;margin-top:10px;">
 
-                                <div id="siteView" style="width:1750px; height:350px;visibility:hidden;">
+                                <div id="siteView" style="width:1550px; height:500px;visibility:hidden;">
                                     <div style="text-align: right;">
                                         <img src="images/ic_in.png" class="site_in_ico">
                                     </div>
                                     <table style="margin-left:15px;">
                                         <tr ng-repeat="y in site_info.y" style="visibility: {{y.v}}">
                                             <td class="td" ng-repeat="x in site_info.x">
-                                                <div style="overflow:hidden;width:{{x.cm =='Y'? 20 : 60}}px;height:{{x.cm =='Y'? 20 : 40}}px;background-color: {{x.c}};">
-
-                                                </div>
+                                                <div style="overflow:hidden;width:{{x.cm =='Y'? 20 : 50}}px;height:{{x.cm =='Y'? 40 : 70}}px;background-color: {{x.c}};"></div>
                                             </td>
                                         </tr>
                                     </table>
@@ -94,13 +92,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="subTitle">통계</div>-->
-                        <!--<div class="gra">-->
-                            <!--<canvas id="line" class="chart chart-line" chart-data="data" chart-options="option"-->
-                                    <!--chart-labels="labels" chart-legend="false" chart-series="series"-->
-                                    <!--chart-click="onClick" >-->
-                            <!--</canvas>-->
-                        <!--</div>-->
                     </div>
                 </div>
             </div>

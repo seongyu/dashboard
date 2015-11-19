@@ -1,14 +1,11 @@
 /**
  * Created by LeonKim on 15. 10. 30..
  */
-var site_info = {x:[],y:[]},carTalk = {},myMk,myPoint,map;
-var api_url = 'http://52.192.105.200:3001/';
-var park_img = [
-    'images/ocs/1.jpg',
-    'images/ocs/2.jpg',
-    'images/ocs/3.jpg',
-    'images/ocs/4.jpg',
-    'images/ocs/5.jpg'];
+var site_info = {x:[],y:[]},map,tgSiteBtn;
+var api_url = 'http://localhost:3001/';
+//var api_url = 'http://52.192.105.200:3001/';
+var park_id = '01100aok151020';
+var storage_url = 'https://s3-ap-northeast-1.amazonaws.com/parkingtalk';
 
 site_info.m = [
     32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,59,60,61,62,63,

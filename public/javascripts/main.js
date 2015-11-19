@@ -1,9 +1,6 @@
 /**
  * Created by LeonKim on 15. 10. 30..
  */
-var park_id = '01100aok151020';
-
-
 angular.module('sctDashModule', ['chart.js'])
     .config(['ChartJsProvider', function (ChartJsProvider) {
         // Configure all charts
@@ -81,7 +78,7 @@ angular.module('sctDashModule', ['chart.js'])
         }
     })
     .controller('mainCtrl', function ($scope, request,$interval) {
-
+        $scope.storage_url = storage_url;
         $scope.park_info = parkList[0];
 
         $scope.checkStatus = function(is_loading){
@@ -119,13 +116,13 @@ angular.module('sctDashModule', ['chart.js'])
         $scope.checkStatus();
 
         $interval(function(){
-            $scope.checkStatus('N');
+            //$scope.checkStatus('N');
         },5000);
 
         $scope.resReq = function(park){
             request.post(api_url+'getResList',{
                 park_id : park,
-                req_dt:new Date().toJSON()
+                req_dt: new Date().toJSON()
             },function(res){
                 var data = res.data.data;
                 if(data.length>0){
@@ -144,23 +141,55 @@ angular.module('sctDashModule', ['chart.js'])
 
         $scope.site_info = site_info;
 
-        $scope.testbtn = function(){
-            var id = $('#testsa').val();
+        $scope.findBtn = function(){
+            var findKey = $('#findKey').val();
             //45버6357
+
+            if(!findKey||findKey===''){
+                alert('찾으실 번호를 입력하십시오.');
+                return null;
+            }
+
             var param = {
                 park_id : park_id,
-                'car_info.car_num' : id
+                status : 'N',
+                'car_info.car_num' : findKey
             };
 
             request.post(api_url+'getSites',param,function(res){
-                var rtn = res.data.data[0];
-                rtn.in_txt = formatDate(rtn.stat_time);
-                rtn.during_txt = duringTimeChk(rtn.stat_time);
-                rtn.update_txt = formatDate(new Date());
-                $scope.targetSite =rtn;
-                console.log($scope.targetSite);
-                $('#siteInfoModal').modal('show');
+                var data = res.data.data;
+                var rs = [];
+                if(data.length<1){
+                    alert('결과가 없습니다.');
+                    return null;
+                }
+                data.forEach(function(v,i,a){
+                    v.in_txt = formatDate(v.stat_time);
+                    v.during_txt = duringTimeChk(v.stat_time);
+                    v.update_txt = formatDate(new Date());
+                    rs.push(v);
+
+                    if(i=== a.length-1){
+                        $scope.targetSites = rs;
+                        $('#findInfoModal').modal('show');
+                    }
+                });
             });
+        };
+
+        tgSiteBtn = function(site_code){
+            request.post(api_url+'getSite',{
+                park_id : park_id,
+                site_code : site_code
+            },function(res){
+                var data = res.data.data;
+                //data.in_txt = formatDate(data.stat_time);
+                //data.during_txt = duringTimeChk(data.stat_time);
+                data.update_txt = formatDate(new Date());
+
+                $scope.tgSite = data;
+                $('#siteInfoModal').modal('show');
+            })
         };
 
 
@@ -172,6 +201,7 @@ angular.module('sctDashModule', ['chart.js'])
 
             site_info.a.forEach(function (v, i, a) {
                 if(site_list[i].status==='Y'){
+                    var btn = 'onclick="tgSiteBtn(\''+site_list[i].site_code+'\')"';
                     var targetm = '.td:eq('+v+') div';
 
                     if($scope.target){
@@ -193,7 +223,7 @@ angular.module('sctDashModule', ['chart.js'])
                     var targetm = '.td:eq('+v+') div';
 
                     $(targetm).css('background-color','#FF8585').html(
-                        '<div class="table_display"><p style="font-size: 12px;" class="table_cell_center">'+site_list[i].site_code+'<br>'+site_list[i].car_info.car_num+'</p></div>'
+                        '<div class="table_display"><p style="font-size: 12px;" class="table_cell_center" '+btn+'>'+site_list[i].site_code+'<br>'+site_list[i].car_info.car_num+'</p></div>'
                     );
                 }
             });
@@ -296,11 +326,14 @@ function crtlWnH() {
 }
 
 function formatDate(date_str_or_num){
-    var d = new Date(date_str_or_num);
-    var daySet = d.toLocaleDateString().split('.');
-    var timeSet = d.toLocaleTimeString().split(":");
-    var msg = daySet[1]+'월 '+daySet[2]+'일 '+ timeSet[0]+'시 '+timeSet[1]+'분';
-    return msg;
+    var date = new Date(date_str_or_num);
+    var hour = date.getHours()>12? '오후 '+(date.getHours()-12):'오전 '+date.getHours();
+    var tpl = date.getMonth()
+        + '월 ' + date.getDate()
+        + '일 ' + hour
+        + '시 ' + date.getMinutes()
+        + '분';
+    return tpl;
 }
 
 

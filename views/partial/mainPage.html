@@ -42,7 +42,7 @@
                     <div id="contents" class="cntDash">
                         <div class="gridster">
                             <ul id="gridster_ul">
-                                <li data-row="1" data-col="1" data-sizex="11" data-sizey="5">
+                                <li data-row="1" data-col="1" data-sizex="12" data-sizey="6">
                                     <!--Contents Box-->
                                     <div class="boxBs">
                                         <div class="boxBsInner">
@@ -82,37 +82,44 @@
                     <!--++++++++++++++++++++++++++++++++++++++++Contents++++++++++++++++++++++++++++++++++++++++-->
 
                 </div>
-                <div class="modal fade" id="siteInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal fade" id="findInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <div class="modal-header">차량결과 리스트</div>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                차량결과 리스트</div>
                             <div class="modal-body">
-                                <table style="width:100%;">
-                                    <tr>
-                                        <td>차량 번호 : </td>
-                                        <td>{{targetSite.car_info.car_num}}</td>
-                                    </tr>
-                                    <!--<tr>-->
-                                        <!--<td>연락처 : </td>-->
-                                        <!--<td>{{targetSite.car_info.tel}}</td>-->
-                                    <!--</tr>-->
-                                    <tr>
-                                        <td>주차위치 : </td>
-                                        <td>{{targetSite.site_code}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>주차시작시간 : </td>
-                                        <td>{{targetSite.in_txt}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>경과시간 : </td>
-                                        <td>{{targetSite.during_txt}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>최종정보갱신시간 : </td>
-                                        <td>{{targetSite.update_txt}}</td>
-                                    </tr>
-                                </table>
+                                <div ng-repeat="targetSite in targetSites">
+                                    <div style="width:70%;float:left;">
+                                        <table class="modal_table">
+                                            <tr>
+                                                <td>차량 번호 : </td>
+                                                <td>{{targetSite.car_info.car_num}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>주차위치 : </td>
+                                                <td>{{targetSite.site_code}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>주차시작시간 : </td>
+                                                <td>{{targetSite.in_txt}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>경과시간 : </td>
+                                                <td>{{targetSite.during_txt}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>최종정보갱신시간 : </td>
+                                                <td>{{targetSite.update_txt}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div style="width:30%;float:left;">
+                                        <img src="{{storage_url}}{{targetSite.car_info.img_path}}" style="width: 80%;margin-left:10%;">
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
@@ -141,7 +148,9 @@
                                         </tr>
                                         <tr>
                                             <td>가격정보</td>
-                                            <td>최초 : {{park_info.price.first? park_info.price.first+'원':'없음'}}<br>
+                                            <td>최초 : {{park_info.price.first.b}}
+                                                {{park_info.price.first.t=='M'?'분 ':'시간 '}}
+                                                {{park_info.price.first.p}}원<br>
                                                 {{park_info.price.basic.b}}
                                                 {{park_info.price.basic.t=='M'?'분 당 ':'시간 당 '}}
                                                 {{park_info.price.basic.p}}원<br>
@@ -159,7 +168,7 @@
                                         </tr>
                                         <tr>
                                             <td>주차면정보</td>
-                                            <td>총 {{park_info.site.now}} / {{park_info.site.total}}</td>
+                                            <td>{{park_info.site.total-park_info.site.now}} 면 주차 중 / 총 {{park_info.site.total}} 면</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -171,6 +180,43 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="modal fade" id="siteInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{tgSite.car_info.car_num}}</div>
+                            <div class="modal-body">
+                                <table class="modal_table">
+                                    <tr>
+                                        <td>주차위치 : </td>
+                                        <td>{{tgSite.site_code}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>주차시작시간 : </td>
+                                        <td>{{tgSite.in_txt}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>경과시간 : </td>
+                                        <td>{{tgSite.during_txt}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>최종정보갱신시간 : </td>
+                                        <td>{{tgSite.update_txt}}</td>
+                                    </tr>
+                                </table>
+                                <div>
+                                    <!--<img src="{{storage_url}}{{tgSite.car_info.img_path}}" style="width: 80%;margin-left:10%;">-->
+                                    <img src="https://s3-ap-northeast-1.amazonaws.com/parkingtalk/2015/11/19/01100aok151020/CH001_20151117174517_%EC%9D%B8%EC%8B%9D%EC%A4%91.jpg" style="width: 80%;margin-left:10%;margin-top:10px;">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
