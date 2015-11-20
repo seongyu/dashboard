@@ -335,3 +335,7 @@ var tabClk = function(id){
     $('.tab-pane').hide();
     $('#'+id).show();
 };
+
+var test = function(me){
+    console.log(me)
+}
