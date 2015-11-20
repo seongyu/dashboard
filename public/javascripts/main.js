@@ -116,7 +116,7 @@ angular.module('sctDashModule', ['chart.js'])
         $scope.checkStatus();
 
         $interval(function(){
-            //$scope.checkStatus('N');
+            $scope.checkStatus('N');
         },5000);
 
         $scope.resReq = function(park){
@@ -164,6 +164,7 @@ angular.module('sctDashModule', ['chart.js'])
                     return null;
                 }
                 data.forEach(function(v,i,a){
+                    v.stat_time = new Date(v.stat_time).getTime()-9*3600*1000;
                     v.in_txt = formatDate(v.stat_time);
                     v.during_txt = duringTimeChk(v.stat_time);
                     v.update_txt = formatDate(new Date());
@@ -183,8 +184,9 @@ angular.module('sctDashModule', ['chart.js'])
                 site_code : site_code
             },function(res){
                 var data = res.data.data;
-                //data.in_txt = formatDate(data.stat_time);
-                //data.during_txt = duringTimeChk(data.stat_time);
+                data.stat_time = new Date(data.stat_time).getTime()-9*3600*1000;
+                data.in_txt = formatDate(data.stat_time);
+                data.during_txt = duringTimeChk(data.stat_time);
                 data.update_txt = formatDate(new Date());
 
                 $scope.tgSite = data;
@@ -335,7 +337,3 @@ var tabClk = function(id){
     $('.tab-pane').hide();
     $('#'+id).show();
 };
-
-var test = function(me){
-    console.log(me)
-}
