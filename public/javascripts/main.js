@@ -95,6 +95,9 @@ angular.module('sctDashModule', ['chart.js'])
                     var av = [];
                     siteStatus.forEach(function(v,i,a){
                         if(v.status==='N'){
+                            if(v.car_info.car_num==='undefined'){
+                                v.car_info.car_num = '미인식 차량';
+                            }
                             v.stat_time = new Date(v.stat_time).getTime()-9*3600*1000;
                             v.time_chk = duringTimeChk(v.stat_time);
                             v.stat_time = new Date(v.stat_time).toLocaleTimeString();
@@ -184,6 +187,9 @@ angular.module('sctDashModule', ['chart.js'])
                 site_code : site_code
             },function(res){
                 var data = res.data.data;
+                if(data.car_info.car_num==='undefined'){
+                    data.car_info.car_num = '미인식 차량';
+                }
                 data.stat_time = new Date(data.stat_time).getTime()-9*3600*1000;
                 data.in_txt = formatDate(data.stat_time);
                 data.during_txt = duringTimeChk(data.stat_time);
