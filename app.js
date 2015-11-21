@@ -10,8 +10,6 @@ var users = require('./routes/users');
 
 var app = express();
 
-//var s3 = require('s3');
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -24,41 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-//var client = s3.createClient({
-//  maxAsyncS3: 20,     // this is the default
-//  s3RetryCount: 3,    // this is the default
-//  s3RetryDelay: 1000, // this is the default
-//  multipartUploadThreshold: 20971520, // this is the default (20 MB)
-//  multipartUploadSize: 15728640, // this is the default (15 MB)
-//  s3Options: {
-//    accessKeyId: "AKIAJWD5UMP7UAN4RLXQ",
-//    secretAccessKey: "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",
-//    region: "ap-northeast-1"
-//  }
-//});
-//
-//var params = {
-//  localFile: "/Users/LeonKim/mServer/dashboard/public/images/ic_in.png",
-//
-//  s3Params: {
-//    Bucket: "parkingtalk",
-//    Key: "parkingtalk/10/ic_in.png",
-//    ACL : "public-read-write"
-//  }
-//};
-//var uploader = client.uploadFile(params);
-//uploader.on('error', function(err) {
-//  console.error("unable to upload:", err.stack);
-//});
-//uploader.on('progress', function() {
-//  console.log("progress", uploader.progressMd5Amount,
-//      uploader.progressAmount, uploader.progressTotal);
-//});
-//uploader.on('end', function() {
-//  console.log("done uploading");
-//});
-
 
 
 app.use('/', routes);
