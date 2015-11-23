@@ -325,7 +325,7 @@ function crtlWnH() {
 function formatDate(date_str_or_num){
     var date = new Date(date_str_or_num);
     var hour = date.getHours()>12? '오후 '+(date.getHours()-12):'오전 '+date.getHours();
-    var tpl = date.getMonth()
+    var tpl = date.getMonth()+1
         + '월 ' + date.getDate()
         + '일 ' + hour
         + '시 ' + date.getMinutes()
