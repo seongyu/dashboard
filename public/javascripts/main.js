@@ -95,7 +95,7 @@ angular.module('sctDashModule', ['chart.js'])
                     var av = [];
                     siteStatus.forEach(function(v,i,a){
                         if(v.status==='N'){
-                            if(v.car_info.car_num==='undefined'){
+                            if(v.car_info.car_num.toLowerCase()==='undefined'){
                                 v.car_info.car_num = '미인식 차량';
                             }
                             v.stat_time = new Date(v.stat_time).getTime()-9*3600*1000;
