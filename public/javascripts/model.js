@@ -3,7 +3,7 @@
  */
 var site_info = {x:[],y:[]},map,tgSiteBtn;
 //var api_url = 'http://localhost:3001/';
-var api_url = 'http://52.192.105.200:3001/';
+var api_url = 'http://52.192.168.235:3001/';
 var park_id = '01100aok151020';
 var storage_url = 'https://s3-ap-northeast-1.amazonaws.com/parkingtalk';
 
