@@ -15,7 +15,7 @@
         font-size: 14px;
         font-weight: 200;
     }
-.close_btn{
+    .close_btn{
         width: 24px;
         opacity: 0.4;
     }
@@ -92,9 +92,9 @@
                                 </button>
                                 차량결과 리스트</div>
                             <div class="modal-body">
-                                <div ng-repeat="targetSite in targetSites">
-                                    <div style="width:70%;float:left;">
-                                        <table class="modal_table">
+                                <div class="row" ng-repeat="targetSite in targetSites">
+                                    <div class="col-xs-8">
+                                        <table style="border: none;" class="modal_table">
                                             <tr>
                                                 <td>차량 번호 : </td>
                                                 <td>{{targetSite.car_info.car_num}}</td>
@@ -117,7 +117,7 @@
                                             </tr>
                                         </table>
                                     </div>
-                                    <div style="width:30%;float:left;">
+                                    <div class="col-xs-4">
                                         <img ng-src="{{storage_url}}{{targetSite.car_info.img_path}}" style="width: 80%;margin-left:10%;">
                                     </div>
                                 </div>
