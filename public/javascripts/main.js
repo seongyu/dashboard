@@ -116,11 +116,11 @@ angular.module('sctDashModule', ['chart.js'])
             });
         };
 
-        $scope.checkStatus();
+        //$scope.checkStatus();
 
-        $interval(function(){
-            $scope.checkStatus('N');
-        },5000);
+        //$interval(function(){
+        //    $scope.checkStatus('N');
+        //},5000);
 
         $scope.resReq = function(park){
             request.post(api_url+'getResList',{
